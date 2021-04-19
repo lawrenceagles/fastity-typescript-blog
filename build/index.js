@@ -39,12 +39,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fastify_1 = __importDefault(require("fastify"));
+var fastify_1 = require("fastify");
+// import { Server, IncomingMessage, ServerResponse } from 'http';
 var pino_1 = __importDefault(require("pino"));
+var dbConnector = require('./config/index');
 var Port = process.env.PORT || 7000;
-var server = fastify_1.default({
+var server = fastify_1.fastify({
     logger: pino_1.default({ level: 'info' })
 });
+// register plugin below:
+// server.register(db, { uri: "mongodb://localhost:27017/blogs" });
+server.register(dbConnector);
+// server.register(require('./blog-routes'));
 var start = function () { return __awaiter(void 0, void 0, void 0, function () {
     var address, err_1;
     return __generator(this, function (_a) {

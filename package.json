@@ -6,7 +6,7 @@
   "scripts": {
     "start:build": "tsc -w",
     "start:run": "nodemon build/index.js",
-    "start": "concurrently npm:start:*" 
+    "start": "concurrently npm:start:*"
   },
   "repository": {
     "type": "git",
@@ -23,8 +23,11 @@
   },
   "homepage": "https://github.com/lawrenceagles/fastity-typescript-starter#readme",
   "dependencies": {
+    "@types/mongoose": "^5.10.5",
     "concurrently": "^6.0.2",
     "fastify": "^3.14.2",
+    "fastify-plugin": "^3.0.0",
+    "mongoose": "^5.12.4",
     "nodemon": "^2.0.7"
   },
   "devDependencies": {
