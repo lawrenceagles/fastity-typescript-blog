@@ -16,17 +16,10 @@ server.register(BlogRoutes);
 const start = async () => {
 	try {
 		await server.listen(Port);
-
-		const address = server.server.address();
-		console.log(`Server listening at ${Port}}`);
+		console.log('Server started successfully');
 	} catch (err) {
 		server.log.error(err);
 		process.exit(1);
 	}
 };
 start();
-
-// server.get('/ping', async (request, reply) => {
-//     server.log.info('log message');
-//     return 'pong\n';
-// });

@@ -52,7 +52,7 @@ var server = fastify_1.fastify({
 server.register(index_1.default, { uri: uri });
 server.register(BlogRoute_1.default);
 var start = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var address, err_1;
+    var err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -60,8 +60,7 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
                 return [4 /*yield*/, server.listen(Port)];
             case 1:
                 _a.sent();
-                address = server.server.address();
-                console.log("Server listening at " + Port + "}");
+                console.log('Server started successfully');
                 return [3 /*break*/, 3];
             case 2:
                 err_1 = _a.sent();
@@ -73,7 +72,3 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
     });
 }); };
 start();
-// server.get('/ping', async (request, reply) => {
-//     server.log.info('log message');
-//     return 'pong\n';
-// });
