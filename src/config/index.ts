@@ -1,7 +1,15 @@
 import { FastifyInstance } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
-import mongoose from 'mongoose';
-import { Blog } from './models/BlogModel';
+import mongoose, { Model } from 'mongoose';
+import { Blog, BlogDocument } from './models/BlogModel';
+
+export interface Models {
+	Blog: Model<BlogDocument>;
+}
+
+export interface Db {
+	models: Models;
+}
 
 const ConnectDB = async (fastify: FastifyInstance, options: { uri: string }) => {
 	try {
@@ -20,7 +28,7 @@ const ConnectDB = async (fastify: FastifyInstance, options: { uri: string }) => 
 			// these options are configurations options for mongoose to prevent mongoose throwing warnings and errors
 		});
 
-		const models = { Blog };
+		const models: Models = { Blog };
 
 		fastify.decorate('db', { models });
 	} catch (error) {

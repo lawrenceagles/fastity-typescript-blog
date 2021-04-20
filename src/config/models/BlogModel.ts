@@ -13,7 +13,7 @@ interface BlogModel extends Model<BlogDocument> {
 }
 
 // an interface that describes the properties that a blog document has
-interface BlogDocument extends Document {
+export interface BlogDocument extends Document {
 	title: string;
 	content: string;
 	category: string;
