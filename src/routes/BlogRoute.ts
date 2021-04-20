@@ -1,47 +1,63 @@
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyPluginOptions, FastifyPluginAsync } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
 
-const BlogRoute = async (server: FastifyInstance, opts) => {
-	declare module 'fastify' {
-		export interface FastifyInstance<
-			HttpServer = http.Server,
-			HttpRequest = http.IncomingMessage,
-			HttpResponse = http.ServerResponse
-		> {
-			blipp(): void;
-			db: Db;
-		}
+import { Db } from '../config/index';
+import { BlogAttrs } from '../config/models/BlogModel';
+
+declare module 'fastify' {
+	export interface FastifyInstance {
+		db: Db;
 	}
+}
 
-	server.get('/vehicles/:id', {}, async (request, reply) => {
-		try {
-			const _id = request.params.id;
+interface blogParams {
+	id: string;
+}
 
-			const vehicle = await server.db.models.Blog.findOne({
-				_id
-			});
-
-			if (!vehicle) {
-				return reply.send(404);
-			}
-
-			return reply.code(200).send(vehicle);
-		} catch (error) {
-			request.log.error(error);
-			return reply.send(400);
-		}
-	});
-
-	server.post('/vehicles', {}, async (request, reply) => {
+const BlogRoute: FastifyPluginAsync = async (server: FastifyInstance, options: FastifyPluginOptions) => {
+	server.get('/blogs', {}, async (request, reply) => {
 		try {
 			const { Blog } = server.db.models;
 
-			const blog = await Blog.createOne(request.body);
+			const blogs = await Blog.find();
+
+			return reply.code(200).send(blogs);
+		} catch (error) {
+			request.log.error(error);
+			return reply.send(500);
+		}
+	});
+
+	server.post<{ Body: BlogAttrs }>('/blogs', {}, async (request, reply) => {
+		try {
+			const { Blog } = server.db.models;
+
+			const blog = await Blog.addOne(request.body);
 
 			return reply.code(201).send(blog);
 		} catch (error) {
 			request.log.error(error);
 			return reply.send(500);
+		}
+	});
+
+	// Read: https://www.fastify.io/docs/latest/TypeScript/#using-generics
+	server.get<{ Params: blogParams }>('/blogs/:id', {}, async (request, reply) => {
+		try {
+			const _id = request.params.id;
+
+			const blog = await server.db.models.Blog.findOne({
+				_id
+			});
+
+			if (!blog) {
+				return reply.send(404);
+			}
+
+			return reply.code(200).send(blog);
+		} catch (error) {
+			request.log.error(error);
+			return reply.send(400);
 		}
 	});
 };

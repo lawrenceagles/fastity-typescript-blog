@@ -1,13 +1,13 @@
 import { Schema, Document, model, Model } from 'mongoose';
 
-interface BlogAttrs {
+export interface BlogAttrs {
 	// used to make sure anytime we create a blog we pass the correct args.
 	title: string;
 	content: string;
 	category: string;
 }
 
-interface BlogModel extends Model<BlogDocument> {
+export interface BlogModel extends Model<BlogDocument> {
 	// enables typescript to understand what our user Model is.
 	addOne(doc: BlogAttrs): BlogDocument;
 }

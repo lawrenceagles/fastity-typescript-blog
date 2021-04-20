@@ -1,10 +1,10 @@
 import { FastifyInstance } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
-import mongoose, { Model } from 'mongoose';
-import { Blog, BlogDocument } from './models/BlogModel';
+import mongoose from 'mongoose';
+import { Blog, BlogModel } from './models/BlogModel';
 
 export interface Models {
-	Blog: Model<BlogDocument>;
+	Blog: BlogModel;
 }
 
 export interface Db {
