@@ -42,14 +42,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fastify_1 = require("fastify");
 // import { Server, IncomingMessage, ServerResponse } from 'http';
 var pino_1 = __importDefault(require("pino"));
-var dbConnector = require('./config/index');
+var index_1 = __importDefault(require("./config/index"));
 var Port = process.env.PORT || 7000;
+var uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/blogs';
 var server = fastify_1.fastify({
     logger: pino_1.default({ level: 'info' })
 });
 // register plugin below:
-// server.register(db, { uri: "mongodb://localhost:27017/blogs" });
-server.register(dbConnector);
+server.register(index_1.default, { uri: uri });
+// server.register(dbConnector);
 // server.register(require('./blog-routes'));
 var start = function () { return __awaiter(void 0, void 0, void 0, function () {
     var address, err_1;

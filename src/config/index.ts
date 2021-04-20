@@ -13,8 +13,7 @@ const ConnectDB = async (fastify: FastifyInstance, options: { uri: string }) => 
 			fastify.log.error({ actor: 'MongoDB' }, 'disconnected');
 		});
 
-		const url = 'mongodb://localhost:27017/blogs';
-		const db = await mongoose.connect(url, {
+		const db = await mongoose.connect(options.uri, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 			useCreateIndex: true

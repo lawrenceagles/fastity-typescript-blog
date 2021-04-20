@@ -41,8 +41,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var fastify_plugin_1 = __importDefault(require("fastify-plugin"));
 var mongoose_1 = __importDefault(require("mongoose"));
+var BlogModel_1 = require("./models/BlogModel");
 var ConnectDB = function (fastify, options) { return __awaiter(void 0, void 0, void 0, function () {
-    var url, db, error_1;
+    var db, models, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -53,8 +54,7 @@ var ConnectDB = function (fastify, options) { return __awaiter(void 0, void 0, v
                 mongoose_1.default.connection.on('disconnected', function () {
                     fastify.log.error({ actor: 'MongoDB' }, 'disconnected');
                 });
-                url = 'mongodb://localhost:27017/blogs';
-                return [4 /*yield*/, mongoose_1.default.connect(url, {
+                return [4 /*yield*/, mongoose_1.default.connect(options.uri, {
                         useNewUrlParser: true,
                         useUnifiedTopology: true,
                         useCreateIndex: true
@@ -62,6 +62,8 @@ var ConnectDB = function (fastify, options) { return __awaiter(void 0, void 0, v
                     })];
             case 1:
                 db = _a.sent();
+                models = { Blog: BlogModel_1.Blog };
+                fastify.decorate('db', { models: models });
                 return [3 /*break*/, 3];
             case 2:
                 error_1 = _a.sent();
