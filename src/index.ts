@@ -1,7 +1,7 @@
-import { fastify, FastifyInstance } from 'fastify';
-// import { Server, IncomingMessage, ServerResponse } from 'http';
+import { fastify } from 'fastify';
 import pino from 'pino';
 import db from './config/index';
+import BlogRoutes from './routes/BlogRoute';
 
 const Port = process.env.PORT || 7000;
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/blogs';
@@ -11,8 +11,7 @@ const server = fastify({
 
 // register plugin below:
 server.register(db, { uri });
-// server.register(dbConnector);
-// server.register(require('./blog-routes'));
+server.register(BlogRoutes);
 
 const start = async () => {
 	try {

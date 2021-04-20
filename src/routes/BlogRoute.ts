@@ -19,7 +19,7 @@ const BlogRoute: FastifyPluginAsync = async (server: FastifyInstance, options: F
 		try {
 			const { Blog } = server.db.models;
 
-			const blogs = await Blog.find();
+			const blogs = await Blog.find({});
 
 			return reply.code(200).send(blogs);
 		} catch (error) {
@@ -33,7 +33,7 @@ const BlogRoute: FastifyPluginAsync = async (server: FastifyInstance, options: F
 			const { Blog } = server.db.models;
 
 			const blog = await Blog.addOne(request.body);
-
+			await blog.save();
 			return reply.code(201).send(blog);
 		} catch (error) {
 			request.log.error(error);
@@ -44,11 +44,9 @@ const BlogRoute: FastifyPluginAsync = async (server: FastifyInstance, options: F
 	// Read: https://www.fastify.io/docs/latest/TypeScript/#using-generics
 	server.get<{ Params: blogParams }>('/blogs/:id', {}, async (request, reply) => {
 		try {
-			const _id = request.params.id;
-
-			const blog = await server.db.models.Blog.findOne({
-				_id
-			});
+			const ID = request.params.id;
+			const { Blog } = server.db.models;
+			const blog = await Blog.findById(ID);
 
 			if (!blog) {
 				return reply.send(404);
