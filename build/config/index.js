@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fastify_plugin_1 = __importDefault(require("fastify-plugin"));
 var mongoose_1 = __importDefault(require("mongoose"));
 var ConnectDB = function (fastify, options) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_1;
+    var url, db, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -53,14 +53,15 @@ var ConnectDB = function (fastify, options) { return __awaiter(void 0, void 0, v
                 mongoose_1.default.connection.on('disconnected', function () {
                     fastify.log.error({ actor: 'MongoDB' }, 'disconnected');
                 });
-                return [4 /*yield*/, mongoose_1.default.connect('mongodb://localhost:27017/blogs', {
+                url = 'mongodb://localhost:27017/blogs';
+                return [4 /*yield*/, mongoose_1.default.connect(url, {
                         useNewUrlParser: true,
                         useUnifiedTopology: true,
                         useCreateIndex: true
                         // these options are configurations options for mongoose to prevent mongoose throwing warnings and errors
                     })];
             case 1:
-                _a.sent();
+                db = _a.sent();
                 return [3 /*break*/, 3];
             case 2:
                 error_1 = _a.sent();
