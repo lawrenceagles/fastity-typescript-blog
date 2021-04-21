@@ -39,14 +39,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fastify_1 = __importDefault(require("fastify"));
+var fastify_1 = require("fastify");
 var pino_1 = __importDefault(require("pino"));
+var index_1 = __importDefault(require("./config/index"));
+var blogRoute_1 = __importDefault(require("./routes/blogRoute"));
 var Port = process.env.PORT || 7000;
-var server = fastify_1.default({
+var uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/blogs';
+var server = fastify_1.fastify({
     logger: pino_1.default({ level: 'info' })
 });
+// Activate plugins below:
+server.register(index_1.default, { uri: uri });
+server.register(blogRoute_1.default);
 var start = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var address, err_1;
+    var err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -54,8 +60,7 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
                 return [4 /*yield*/, server.listen(Port)];
             case 1:
                 _a.sent();
-                address = server.server.address();
-                console.log("Server listening at " + Port + "}");
+                console.log('Server started successfully');
                 return [3 /*break*/, 3];
             case 2:
                 err_1 = _a.sent();
@@ -67,7 +72,3 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
     });
 }); };
 start();
-// server.get('/ping', async (request, reply) => {
-//     server.log.info('log message');
-//     return 'pong\n';
-// });
