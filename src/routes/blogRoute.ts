@@ -1,9 +1,10 @@
 import { FastifyInstance, FastifyPluginOptions, FastifyPluginAsync } from 'fastify';
-import fastifyPlugin from 'fastify-plugin';
+import fp from 'fastify-plugin';
 
 import { Db } from '../config/index';
-import { BlogAttrs } from '../config/models/BlogModel';
+import { BlogAttrs } from '../config/models/blogModel';
 
+// Declaration merging
 declare module 'fastify' {
 	export interface FastifyInstance {
 		db: Db;
@@ -41,7 +42,6 @@ const BlogRoute: FastifyPluginAsync = async (server: FastifyInstance, options: F
 		}
 	});
 
-	// Read: https://www.fastify.io/docs/latest/TypeScript/#using-generics
 	server.get<{ Params: blogParams }>('/blogs/:id', {}, async (request, reply) => {
 		try {
 			const ID = request.params.id;
@@ -60,4 +60,4 @@ const BlogRoute: FastifyPluginAsync = async (server: FastifyInstance, options: F
 	});
 };
 
-export default fastifyPlugin(BlogRoute);
+export default fp(BlogRoute);

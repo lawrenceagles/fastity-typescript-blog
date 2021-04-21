@@ -41,7 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var fastify_plugin_1 = __importDefault(require("fastify-plugin"));
 var mongoose_1 = __importDefault(require("mongoose"));
-var BlogModel_1 = require("./models/BlogModel");
+var blogModel_1 = require("./models/blogModel");
 var ConnectDB = function (fastify, options) { return __awaiter(void 0, void 0, void 0, function () {
     var db, models, error_1;
     return __generator(this, function (_a) {
@@ -62,7 +62,7 @@ var ConnectDB = function (fastify, options) { return __awaiter(void 0, void 0, v
                     })];
             case 1:
                 db = _a.sent();
-                models = { Blog: BlogModel_1.Blog };
+                models = { Blog: blogModel_1.Blog };
                 fastify.decorate('db', { models: models });
                 return [3 /*break*/, 3];
             case 2:

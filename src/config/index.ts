@@ -1,7 +1,8 @@
 import { FastifyInstance } from 'fastify';
-import fastifyPlugin from 'fastify-plugin';
+import { FastifyPluginAsync, FastifyPluginOptions } from 'fastify';
+import fp from 'fastify-plugin';
 import mongoose from 'mongoose';
-import { Blog, BlogModel } from './models/BlogModel';
+import { Blog, BlogModel } from './models/blogModel';
 
 export interface Models {
 	Blog: BlogModel;
@@ -11,7 +12,15 @@ export interface Db {
 	models: Models;
 }
 
-const ConnectDB = async (fastify: FastifyInstance, options: { uri: string }) => {
+// define options
+export interface MyPluginOptions {
+	uri: string;
+}
+
+const ConnectDB: FastifyPluginAsync<MyPluginOptions> = async (
+	fastify: FastifyInstance,
+	options: FastifyPluginOptions
+) => {
 	try {
 		mongoose.connection.on('connected', () => {
 			fastify.log.info({ actor: 'MongoDB' }, 'connected');
@@ -36,4 +45,4 @@ const ConnectDB = async (fastify: FastifyInstance, options: { uri: string }) => 
 	}
 };
 
-export default fastifyPlugin(ConnectDB);
+export default fp(ConnectDB);
