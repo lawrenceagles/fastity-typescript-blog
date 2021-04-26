@@ -83,7 +83,6 @@ var BlogRoute = function (server, options) { return __awaiter(void 0, void 0, vo
                 }
             });
         }); });
-        // Read: https://www.fastify.io/docs/latest/TypeScript/#using-generics
         server.get('/blogs/:id', {}, function (request, reply) { return __awaiter(void 0, void 0, void 0, function () {
             var ID, Blog, blog, error_3;
             return __generator(this, function (_a) {

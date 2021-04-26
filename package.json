@@ -4,9 +4,9 @@
   "description": "A fastify and typescript boilerplate",
   "main": "index.js",
   "scripts": {
-    "start:build": "tsc -w",
-    "start:run": "nodemon build/index.js",
-    "start": "concurrently npm:start:*"
+    "build": "tsc -w",
+    "start": "node build/index.js",
+    "dev": "nodemon build/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/lawrenceagles/fastity-typescript-starter#readme",
   "dependencies": {
-    "concurrently": "^6.0.2",
     "fastify": "^3.14.2",
     "fastify-plugin": "^3.0.0",
     "mongoose": "^5.12.4",
